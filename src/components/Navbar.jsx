@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { 
     LeftContainer, 
     NavbarContainer, 
@@ -6,12 +6,18 @@ import {
     NavbarInnerContainer, 
     NavbarLinkContainer, 
     RightContainer, 
-    NavbarLink
+    NavbarLink,
+    Logo,
+    OpenLinkButton, 
+    NavbarLinkExtended
 } from '../styles/Navbar.style';
+import LogoImg  from '../assets/gitlab.png';
 
 function Navbar (){
+    const [extendNavbar,setExtendNavbar] =useState(false);
+
     return (
-        <NavbarContainer>
+        <NavbarContainer extendNavbar = {extendNavbar}>
             <NavbarInnerContainer>
                 <LeftContainer>
                     <NavbarLinkContainer>
@@ -19,14 +25,28 @@ function Navbar (){
                         <NavbarLink to="/products">Products</NavbarLink>
                         <NavbarLink to="/contact">Contact Us</NavbarLink>
                         <NavbarLink to="/about">About Us</NavbarLink>
-
+                        <OpenLinkButton
+                            onClick={()=>{
+                                setExtendNavbar((curr)=>!curr);
+                            }}
+                        >
+                            {extendNavbar ? <>&#10005;</> : <>&#8801;</>}
+                        </OpenLinkButton>
                     </NavbarLinkContainer>
                 </LeftContainer>
-                <RightContainer></RightContainer>
+                <RightContainer>
+                    <Logo src ={LogoImg}></Logo>
+                </RightContainer>
             </NavbarInnerContainer>
-            <NavbarExtendedContainer></NavbarExtendedContainer>
-        </NavbarContainer>)
-    ;
+            {extendNavbar && (
+            <NavbarExtendedContainer>
+                <NavbarLinkExtended to="/">Home</NavbarLinkExtended>
+                <NavbarLinkExtended to="/products">Products</NavbarLinkExtended>
+                <NavbarLinkExtended to="/contact">Contact Us</NavbarLinkExtended>
+                <NavbarLinkExtended to="/about">About Us</NavbarLinkExtended>
+            </NavbarExtendedContainer>
+            )}
+        </NavbarContainer>);
 }
 
 export default Navbar;
